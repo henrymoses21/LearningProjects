@@ -17,7 +17,6 @@ namespace DiceRolling.Models
         public void Roll()
         {
             this.Value = 1 + (_rnd.Next() % 6);
-            Console.WriteLine(this.Value);
         }
 
         public int Value { get; set; }

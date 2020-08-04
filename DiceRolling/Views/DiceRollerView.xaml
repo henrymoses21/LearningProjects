@@ -4,22 +4,49 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DiceRolling.Views"
+             xmlns:vm="clr-namespace:DiceRolling.ViewModel"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <local:DieFaceView Padding="4px" Grid.Column="0" IsNumeric="True" /> <!-- bind IsNumeric to checkbox output via viewmodel -->
-        <local:DieFaceView Padding="4px" Grid.Column="1" />
-        <local:DieFaceView Padding="4px" Grid.Column="2" />
-        <local:DieFaceView Padding="4px" Grid.Column="3" />
+             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="DiceRoller">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <vm:DiceRollerViewModel x:Key="DiceRollerViewModel" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <StackPanel DataContext="{StaticResource DiceRollerViewModel}"
+                d:DataContext="{d:DesignInstance vm:DiceRollerViewModel, IsDesignTimeCreatable=True}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <local:DieFaceView x:Name="Die1" Padding="4px" Grid.Column="0" IsNumeric="False" /> <!-- bind IsNumeric to checkbox output via viewmodel -->
+            <local:DieFaceView x:Name="Die2" Padding="4px" Grid.Column="1" IsNumeric="False" />
+            <local:DieFaceView x:Name="Die3" Padding="4px" Grid.Column="2" IsNumeric="False" />
+            <local:DieFaceView x:Name="Die4" Padding="4px" Grid.Column="3" IsNumeric="False" />
 
-        <!-- put roll button and numeric/dots checkbox here -->
-        <!-- hook up roll to roll ALL dice -->
-        <!-- get rid of exit button -->
-    </Grid>
+            <!-- put roll button and numeric/dots checkbox here -->
+            <!-- hook up roll to roll ALL dice  - DONE-->
+            <!-- hook up checkbox - not as easy as it looks. Hint. Put IsNumeric property in viewmodel to store
+                 current checkbox IsNumeric, and use
+                 an event trigger setup similar to the one below (except use ChangePropertyAction, not InvokeCommandAction
+                 on each Die control).
+            -->
+        </Grid>
+        <Button Content="Roll Dice" Margin="4px">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding ElementName=Die1, Path=DataContext.RollCommand}" />
+                    <i:InvokeCommandAction Command="{Binding ElementName=Die2, Path=DataContext.RollCommand}" />
+                    <i:InvokeCommandAction Command="{Binding ElementName=Die3, Path=DataContext.RollCommand}" />
+                    <i:InvokeCommandAction Command="{Binding ElementName=Die4, Path=DataContext.RollCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <CheckBox VerticalAlignment="Top" HorizontalAlignment="Center" Content="Show Numbers" />
+
+    </StackPanel>
 </UserControl>

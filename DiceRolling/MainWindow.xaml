@@ -5,52 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DiceRolling.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="650" Width="1030" ResizeMode="NoResize">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
-            <RowDefinition/>
-            <RowDefinition Height="100"/>
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="0">
-            <StackPanel.Resources>
-                <Style TargetType="{x:Type Image}">
-                    <Setter Property="Margin" Value="10,0,0,0"/>
-                </Style>
-            </StackPanel.Resources>
-            <local:DiceRollerView />
-            <Image Visibility="Hidden" Name="imgDice1" Source="{Binding ImageSource1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="130" Width="155"/>
-            <Image Visibility="Hidden" Name="imgDice2" Source="{Binding ImageSource2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="130" Width="155"/>
-            <Image Visibility="Hidden" Name="imgDice3" Source="{Binding ImageSource3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="130" Width="155"/>
-            <Image Visibility="Hidden" Name="imgDice4" Source="{Binding ImageSource4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="130" Width="155"/>
-            <Image Visibility="Hidden" Name="imgDice5" Source="{Binding ImageSource5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="130" Width="155"/>
-            <Image Visibility="Hidden" Name="imgDice6" Source="{Binding ImageSource6, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="130" Width="155"/>
-        </StackPanel>
-        <Grid  Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <CheckBox VerticalAlignment="Top" Grid.Column="3" HorizontalAlignment="Center" Content="Show in Number" Name="ShowNumbers" IsChecked="{Binding ChkBoxChecked, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                <CheckBox.LayoutTransform>
-                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                </CheckBox.LayoutTransform>
-            </CheckBox>
-            <Image Grid.Column="0" Name="imgDiceShow1" Source="{Binding ImgDiceShow1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Visibility="{Binding ImgDiceShow1Visibility, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="240" Width="238"/>
-            <TextBox FontSize="70" Text="{Binding TextBox1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding TextBox1Visibility, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" Grid.Column="0" Name="txtDiceShow1" Height="240" Width="238"/>
-            <Image Grid.Column="1" Name="imgDiceShow2" Source="{Binding ImgDiceShow2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Visibility="{Binding ImgDiceShow2Visibility, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="240" Width="238"/>
-            <TextBox FontSize="70" Text="{Binding TextBox2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding TextBox2Visibility, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" Grid.Column="1" Name="txtDiceShow2" Height="240" Width="238"/>
-            <Image Grid.Column="2" Name="imgDiceShow3" Source="{Binding ImgDiceShow3, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Visibility="{Binding ImgDiceShow3Visibility, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="240" Width="238"/>
-            <TextBox FontSize="70" Text="{Binding TextBox3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding TextBox3Visibility, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" Grid.Column="2" Name="txtDiceShow3" Height="240" Width="238"/>
-            <Image Grid.Column="3" Name="imgDiceShow4" Source="{Binding ImgDiceShow4, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Visibility="{Binding ImgDiceShow4Visibility, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Height="240" Width="238"/>
-            <TextBox FontSize="70" Text="{Binding TextBox4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding TextBox4Visibility, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" Grid.Column="3" Name="txtDiceShow4" Height="240" Width="238"/>
-        </Grid>
-        <Grid Grid.Row="2">
-            <Button Content="Roll Dice" Width="200" Height="80" FontSize="35" VerticalAlignment="Center" Command="{Binding ButtonClick, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
-            <Button Content="Exit" Command="{Binding ExitButton, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Width="200" Height="80" FontSize="35" VerticalAlignment="Center" Margin="633,10,189,10"/>
-        </Grid>
+        Title="MainWindow" Height="160" Width="306" ResizeMode="NoResize">
 
-    </Grid>
+    <StackPanel>
+        <local:DiceRollerView />
+    </StackPanel>
 </Window>

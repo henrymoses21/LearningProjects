@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:DiceRolling.Views"
              xmlns:vm="clr-namespace:DiceRolling.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             DataContext="{DynamicResource DieFaceViewModel}"
+             d:DataContext="{d:DesignInstance vm:DieFaceViewModel, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style x:Key="Dot" TargetType="Ellipse">
@@ -20,8 +22,7 @@
             <vm:DieFaceViewModel x:Key="DieFaceViewModel" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid DataContext="{StaticResource DieFaceViewModel}"
-          d:DataContext="{d:DesignInstance vm:DieFaceViewModel, IsDesignTimeCreatable=True}">
+    <Grid>
         <Border BorderBrush="Black" BorderThickness="2" MaxHeight="64" MaxWidth="64">
             <Grid>
                 <Label Content="{Binding RollValue}" Width="60" Height="60"
