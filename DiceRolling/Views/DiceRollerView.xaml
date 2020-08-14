@@ -12,6 +12,10 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <vm:DiceRollerViewModel x:Key="DiceRollerViewModel" />
+            <Style TargetType="local:DieFaceView">
+                <Setter Property="IsNumeric" Value="{Binding IsNumeric, Mode=TwoWay}"/>
+                <Setter Property="IsDots" Value="{Binding IsDots, Mode=TwoWay}"/>
+            </Style>        
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel DataContext="{StaticResource DiceRollerViewModel}"
@@ -46,7 +50,15 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>
-        <CheckBox VerticalAlignment="Top" HorizontalAlignment="Center" Content="Show Numbers" />
-
+        <CheckBox VerticalAlignment="Top" HorizontalAlignment="Center" Content="Show Numbers">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:ChangePropertyAction PropertyName="IsNumeric" TargetObject="{Binding ElementName=Die1}" Value="True" />
+                    <i:ChangePropertyAction PropertyName="IsNumeric" TargetObject="{Binding ElementName=Die2}" Value="True" />
+                    <i:ChangePropertyAction PropertyName="IsNumeric" TargetObject="{Binding ElementName=Die3}" Value="True" />
+                    <i:ChangePropertyAction PropertyName="IsNumeric" TargetObject="{Binding ElementName=Die4}" Value="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </CheckBox>
     </StackPanel>
 </UserControl>

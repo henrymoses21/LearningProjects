@@ -11,6 +11,10 @@ namespace DiceRolling.Views
     {
         public static DependencyProperty IsNumericProperty =
             DependencyProperty.Register("IsNumeric", typeof(bool), typeof(DieFaceView));
+
+        public static DependencyProperty IsDotsProperty =
+            DependencyProperty.Register("IsDots", typeof(bool), typeof(DieFaceView));
+        
         public DieFaceView()
         {
             InitializeComponent();
@@ -22,7 +26,11 @@ namespace DiceRolling.Views
             set => SetValue(IsNumericProperty, value);
         }
 
-        public bool IsDots => !IsNumeric;
+        public bool IsDots
+        {
+            get => (bool)GetValue(IsDotsProperty);
+            set => SetValue(IsDotsProperty, value);
+        }
 
     }
 }

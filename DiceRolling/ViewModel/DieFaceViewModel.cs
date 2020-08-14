@@ -15,6 +15,7 @@ namespace DiceRolling.ViewModel
     {
         private readonly DieModel _dieModel = new DieModel();
         private bool _isNumeric;
+        private bool _isDots;
 
         public ICommand RollCommand { get; }
 
@@ -22,6 +23,7 @@ namespace DiceRolling.ViewModel
         {
             RollCommand = new ActionCommand(s =>
             {
+                IsDots = true;
                 _dieModel.Roll();
                 OnPropertyChanged(nameof(RollValue));
                 OnPropertyChanged(nameof(Dot00Visibility));
@@ -40,8 +42,22 @@ namespace DiceRolling.ViewModel
             get => _isNumeric;
             set
             {
+                _isDots = !value;
                 _isNumeric = value;
                 OnPropertyChanged(nameof(IsNumeric));
+                OnPropertyChanged(nameof(IsDots));
+            }
+        }
+
+        public bool IsDots
+        {
+            get => _isDots;
+            set
+            {
+                _isNumeric = !value;
+                _isDots = value;
+                OnPropertyChanged(nameof(IsNumeric));
+                OnPropertyChanged(nameof(IsDots));
             }
         }
 
