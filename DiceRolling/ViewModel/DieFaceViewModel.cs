@@ -21,9 +21,9 @@ namespace DiceRolling.ViewModel
 
         public DieFaceViewModel()
         {
+            IsDots = true;
             RollCommand = new ActionCommand(s =>
             {
-                IsDots = true;
                 _dieModel.Roll();
                 OnPropertyChanged(nameof(RollValue));
                 OnPropertyChanged(nameof(Dot00Visibility));
