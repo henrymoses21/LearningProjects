@@ -50,13 +50,13 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>
-        <CheckBox VerticalAlignment="Top" HorizontalAlignment="Center" Content="Show Numbers">
+        <CheckBox Name="ShowNumbers" VerticalAlignment="Top" HorizontalAlignment="Center" Content="Show Numbers">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
-                    <i:ChangePropertyAction PropertyName="IsNumeric" TargetObject="{Binding ElementName=Die1}" Value="True" />
-                    <i:ChangePropertyAction PropertyName="IsNumeric" TargetObject="{Binding ElementName=Die2}" Value="True" />
-                    <i:ChangePropertyAction PropertyName="IsNumeric" TargetObject="{Binding ElementName=Die3}" Value="True" />
-                    <i:ChangePropertyAction PropertyName="IsNumeric" TargetObject="{Binding ElementName=Die4}" Value="True" />
+                    <i:ChangePropertyAction PropertyName="IsNumeric" TargetObject="{Binding ElementName=Die1}" Value="{Binding ElementName=ShowNumbers, Path=IsChecked}" />
+                    <i:ChangePropertyAction PropertyName="IsNumeric" TargetObject="{Binding ElementName=Die2}" Value="{Binding ElementName=ShowNumbers, Path=IsChecked}" />
+                    <i:ChangePropertyAction PropertyName="IsNumeric" TargetObject="{Binding ElementName=Die3}" Value="{Binding ElementName=ShowNumbers, Path=IsChecked}" />
+                    <i:ChangePropertyAction PropertyName="IsNumeric" TargetObject="{Binding ElementName=Die4}" Value="{Binding ElementName=ShowNumbers, Path=IsChecked}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </CheckBox>
