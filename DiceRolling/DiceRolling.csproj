@@ -59,7 +59,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BooleanToDieFaceViewModeConverter.cs" />
+    <Compile Include="Converters\DieFaceValueConverter.cs" />
+    <Compile Include="Converters\DieFaceViewModeToRadioButtonCheckedConverter.cs" />
+    <Compile Include="Converters\DieFaceViewModeToVisibilityConverter.cs" />
     <Compile Include="ViewModel\DiceRollerViewModel.cs" />
+    <Compile Include="Enums\DieFaceViewMode.cs" />
     <Compile Include="Views\DiceRollerView.xaml.cs">
       <DependentUpon>DiceRollerView.xaml</DependentUpon>
     </Compile>

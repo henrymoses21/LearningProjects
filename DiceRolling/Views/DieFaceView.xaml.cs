@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using DiceRolling.ViewModel;
+using System.Windows.Input;
+using DiceRolling.Enums;
+
 
 namespace DiceRolling.Views
 {
@@ -9,27 +11,19 @@ namespace DiceRolling.Views
     /// </summary>
     public partial class DieFaceView : UserControl
     {
-        public static DependencyProperty IsNumericProperty =
-            DependencyProperty.Register("IsNumeric", typeof(bool), typeof(DieFaceView));
+        public static DependencyProperty RollCommandProperty =
+            DependencyProperty.Register("RollCommand", typeof(ICommand), typeof(DieFaceView));
 
-        public static DependencyProperty IsDotsProperty =
-            DependencyProperty.Register("IsDots", typeof(bool), typeof(DieFaceView));
-        
+
         public DieFaceView()
         {
             InitializeComponent();
         }
 
-        public bool IsNumeric
+        public ICommand RollCommand
         {
-            get => (bool)GetValue(IsNumericProperty);
-            set => SetValue(IsNumericProperty, value);
-        }
-
-        public bool IsDots
-        {
-            get => (bool)GetValue(IsDotsProperty);
-            set => SetValue(IsDotsProperty, value);
+            get => (ICommand)GetValue(RollCommandProperty);
+            set => SetValue(RollCommandProperty, value);
         }
 
     }

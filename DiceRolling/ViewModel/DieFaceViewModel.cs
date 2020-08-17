@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Linq;
 using System.Windows.Input;
+using DiceRolling.Enums;
 using DiceRolling.Models;
 using Microsoft.Xaml.Behaviors.Core;
 
+
 namespace DiceRolling.ViewModel
 {
-
     public class DieFaceViewModel : ViewModelBase
     {
         private readonly DieModel _dieModel = new DieModel();
-        private bool _isNumeric;
-        private bool _isDots;
+        private DieFaceViewMode _dieViewMode = DieFaceViewMode.Dots;
 
         public ICommand RollCommand { get; }
 
         public DieFaceViewModel()
         {
-            IsDots = true;
+            
             RollCommand = new ActionCommand(s =>
             {
                 _dieModel.Roll();
@@ -36,47 +31,32 @@ namespace DiceRolling.ViewModel
             });
         }
 
-
-        public bool IsNumeric
+        public DieFaceViewMode DieViewMode
         {
-            get => _isNumeric;
+            get => _dieViewMode;
             set
             {
-                _isDots = !value;
-                _isNumeric = value;
-                OnPropertyChanged(nameof(IsNumeric));
-                OnPropertyChanged(nameof(IsDots));
-            }
-        }
-
-        public bool IsDots
-        {
-            get => _isDots;
-            set
-            {
-                _isNumeric = !value;
-                _isDots = value;
-                OnPropertyChanged(nameof(IsNumeric));
-                OnPropertyChanged(nameof(IsDots));
+                _dieViewMode = value;
+                OnPropertyChanged(nameof(DieViewMode));
             }
         }
 
 
         public int RollValue => _dieModel.Value;
 
+        // NB. We can get rid of all of these properties with a ValueConverter.
+        public bool Dot00Visibility => new [] {4, 5, 6}.Contains(RollValue);
 
-        public bool Dot00Visibility => !IsNumeric && new [] {4, 5, 6}.Contains(RollValue);
+        public bool Dot10Visibility => new [] {6}.Contains(RollValue);
 
-        public bool Dot10Visibility => !IsNumeric && new [] {6}.Contains(RollValue);
+        public bool Dot11Visibility => new [] {1, 3, 5}.Contains(RollValue);
 
-        public bool Dot11Visibility => !IsNumeric &&  new [] {3, 5}.Contains(RollValue);
+        public bool Dot12Visibility => new [] {6}.Contains(RollValue);
 
-        public bool Dot12Visibility => !IsNumeric &&  new [] {6}.Contains(RollValue);
+        public bool Dot02Visibility => new [] {2, 3, 4, 5, 6}.Contains(RollValue);
 
-        public bool Dot02Visibility => !IsNumeric &&  new [] {2, 3, 4, 5, 6}.Contains(RollValue);
-
-        public bool Dot20Visibility => !IsNumeric && new [] {2, 3, 4, 5, 6}.Contains(RollValue);
+        public bool Dot20Visibility => new [] {2, 3, 4, 5, 6}.Contains(RollValue);
         
-        public bool Dot22Visibility => !IsNumeric && new [] {1, 4, 5, 6}.Contains(RollValue);
+        public bool Dot22Visibility => new [] {4, 5, 6}.Contains(RollValue);
     }
 }

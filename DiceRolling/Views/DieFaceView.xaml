@@ -5,10 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DiceRolling.Views"
              xmlns:vm="clr-namespace:DiceRolling.ViewModel"
+             xmlns:converters="clr-namespace:DiceRolling.Converters"
+             xmlns:enums="clr-namespace:DiceRolling.Enums"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             DataContext="{DynamicResource DieFaceViewModel}"
-             d:DataContext="{d:DesignInstance vm:DieFaceViewModel, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance vm:DieFaceViewModel, IsDesignTimeCreatable=True}"
+             DataContext="{DynamicResource DieFaceVm}"
+             x:Name="DieFace">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style x:Key="Dot" TargetType="Ellipse">
@@ -18,25 +21,44 @@
                 <Setter Property="StrokeThickness" Value="2" />
                 <Setter Property="Stroke" Value="Black" />
             </Style>
-            <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
-            <vm:DieFaceViewModel x:Key="DieFaceViewModel" />
+            <converters:DieFaceViewModeToVisibilityConverter x:Key="DieFaceViewConverter" />
+            <converters:DieFaceValueConverter x:Key="DieFaceValueConverter" />
+            <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter"/>
+            <vm:DieFaceViewModel x:Key="DieFaceVm" />
         </ResourceDictionary>
     </UserControl.Resources>
+    <UserControl.Style>
+        <Style TargetType="local:DieFaceView">
+            <Setter Property="RollCommand" Value="{Binding RollCommand, Mode=OneTime}"/>
+        </Style>
+    </UserControl.Style>
     <Grid>
         <Border BorderBrush="Black" BorderThickness="2" MaxHeight="64" MaxWidth="64">
             <Grid>
-                <Label Content="{Binding RollValue}" Width="60" Height="60"
+                <Label Content="{Binding RollValue, Converter={StaticResource DieFaceValueConverter},
+                                                    ConverterParameter={x:Static enums:DieFaceViewMode.Numbers}}"
                        HorizontalContentAlignment="Center"
                        VerticalContentAlignment="Center"
-                       Visibility="{Binding IsNumeric, 
-                                    Converter={StaticResource VisibleIfTrueConverter},
-                                    UpdateSourceTrigger=PropertyChanged,
-                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:DieFaceView}}"/>
+                       Width="60" Height="60"
+                       Visibility="{Binding DieViewMode, 
+                                    Converter={StaticResource DieFaceViewConverter},
+                                    ConverterParameter={x:Static enums:DieFaceViewMode.Numbers},
+                                    UpdateSourceTrigger=PropertyChanged}"/>
 
-                <Grid Visibility="{Binding IsDots, 
-                                    Converter={StaticResource VisibleIfTrueConverter},
-                                    UpdateSourceTrigger=PropertyChanged,
-                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:DieFaceView}}">
+                <Label Content="{Binding RollValue, Converter={StaticResource DieFaceValueConverter},
+                                                    ConverterParameter={x:Static enums:DieFaceViewMode.RomanNumerals}}"
+                       Width="60" Height="60"
+                       HorizontalContentAlignment="Center"
+                       VerticalContentAlignment="Center"
+                       Visibility="{Binding DieViewMode, 
+                                    Converter={StaticResource DieFaceViewConverter},
+                                    ConverterParameter={x:Static enums:DieFaceViewMode.RomanNumerals},
+                                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Grid Visibility="{Binding DieViewMode, 
+                                   Converter={StaticResource DieFaceViewConverter},
+                                   ConverterParameter={x:Static enums:DieFaceViewMode.Dots},                                    
+                                   UpdateSourceTrigger=PropertyChanged}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20" />
                         <RowDefinition Height="20" />

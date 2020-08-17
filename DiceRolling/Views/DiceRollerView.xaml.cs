@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DiceRolling.Enums;
 
 namespace DiceRolling.Views
 {
@@ -20,9 +21,17 @@ namespace DiceRolling.Views
     /// </summary>
     public partial class DiceRollerView : UserControl
     {
+        public static DependencyProperty ViewModeProperty =
+            DependencyProperty.Register("ViewMode", typeof(DieFaceViewMode), typeof(DiceRollerView));
         public DiceRollerView()
         {
             InitializeComponent();
         }
+        public DieFaceViewMode ViewMode
+        {
+            get => (DieFaceViewMode)GetValue(ViewModeProperty);
+            set => SetValue(ViewModeProperty, value);
+        }
+
     }
 }

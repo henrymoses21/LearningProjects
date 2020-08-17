@@ -6,20 +6,24 @@
              xmlns:local="clr-namespace:DiceRolling.Views"
              xmlns:vm="clr-namespace:DiceRolling.ViewModel"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:converters="clr-namespace:DiceRolling.Converters"
+             xmlns:enums="clr-namespace:DiceRolling.Enums"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="DiceRoller">
     <UserControl.Resources>
         <ResourceDictionary>
-            <vm:DiceRollerViewModel x:Key="DiceRollerViewModel" />
-            <Style TargetType="local:DieFaceView">
-                <Setter Property="IsNumeric" Value="{Binding IsNumeric, Mode=TwoWay}"/>
-                <Setter Property="IsDots" Value="{Binding IsDots, Mode=TwoWay}"/>
-            </Style>        
+            <vm:DiceRollerViewModel x:Key="DiceRollerVm" />
+            <converters:DieFaceViewModeToRadioButtonCheckedConverter x:Key="RadioButtonCheckedConverter" />
+            <converters:DebugDummyConverter x:Key="dd" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <StackPanel DataContext="{StaticResource DiceRollerViewModel}"
-                d:DataContext="{d:DesignInstance vm:DiceRollerViewModel, IsDesignTimeCreatable=True}">
+    <UserControl.Style>
+        <Style TargetType="local:DiceRollerView">
+            <Setter Property="ViewMode" Value="{Binding DiceViewMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Style> 
+    </UserControl.Style>
+    <StackPanel DataContext="{StaticResource DiceRollerVm}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -27,38 +31,35 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <local:DieFaceView x:Name="Die1" Padding="4px" Grid.Column="0" IsNumeric="False" /> <!-- bind IsNumeric to checkbox output via viewmodel -->
-            <local:DieFaceView x:Name="Die2" Padding="4px" Grid.Column="1" IsNumeric="False" />
-            <local:DieFaceView x:Name="Die3" Padding="4px" Grid.Column="2" IsNumeric="False" />
-            <local:DieFaceView x:Name="Die4" Padding="4px" Grid.Column="3" IsNumeric="False" />
+            <local:DieFaceView x:Name="Die1" Padding="4px" Grid.Column="0" DataContext="{Binding Path=Die1, Mode=OneTime}" />
+            <local:DieFaceView x:Name="Die2" Padding="4px" Grid.Column="1" DataContext="{Binding Path=Die2, Mode=OneTime}" />
+            <local:DieFaceView x:Name="Die3" Padding="4px" Grid.Column="2" DataContext="{Binding Path=Die3, Mode=OneTime}" />
+            <local:DieFaceView x:Name="Die4" Padding="4px" Grid.Column="3" DataContext="{Binding Path=Die4, Mode=OneTime}" />
 
-            <!-- put roll button and numeric/dots checkbox here -->
-            <!-- hook up roll to roll ALL dice  - DONE-->
-            <!-- hook up checkbox - not as easy as it looks. Hint. Put IsNumeric property in viewmodel to store
-                 current checkbox IsNumeric, and use
-                 an event trigger setup similar to the one below (except use ChangePropertyAction, not InvokeCommandAction
-                 on each Die control).
-            -->
         </Grid>
         <Button Content="Roll Dice" Margin="4px">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
-                    <i:InvokeCommandAction Command="{Binding ElementName=Die1, Path=DataContext.RollCommand}" />
-                    <i:InvokeCommandAction Command="{Binding ElementName=Die2, Path=DataContext.RollCommand}" />
-                    <i:InvokeCommandAction Command="{Binding ElementName=Die3, Path=DataContext.RollCommand}" />
-                    <i:InvokeCommandAction Command="{Binding ElementName=Die4, Path=DataContext.RollCommand}" />
+                    <i:InvokeCommandAction Command="{Binding ElementName=Die1, Path=RollCommand}" />
+                    <i:InvokeCommandAction Command="{Binding ElementName=Die2, Path=RollCommand}" />
+                    <i:InvokeCommandAction Command="{Binding ElementName=Die3, Path=RollCommand}" />
+                    <i:InvokeCommandAction Command="{Binding ElementName=Die4, Path=RollCommand}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>
-        <CheckBox Name="ShowNumbers" VerticalAlignment="Top" HorizontalAlignment="Center" Content="Show Numbers">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Click">
-                    <i:ChangePropertyAction PropertyName="IsNumeric" TargetObject="{Binding ElementName=Die1}" Value="{Binding ElementName=ShowNumbers, Path=IsChecked}" />
-                    <i:ChangePropertyAction PropertyName="IsNumeric" TargetObject="{Binding ElementName=Die2}" Value="{Binding ElementName=ShowNumbers, Path=IsChecked}" />
-                    <i:ChangePropertyAction PropertyName="IsNumeric" TargetObject="{Binding ElementName=Die3}" Value="{Binding ElementName=ShowNumbers, Path=IsChecked}" />
-                    <i:ChangePropertyAction PropertyName="IsNumeric" TargetObject="{Binding ElementName=Die4}" Value="{Binding ElementName=ShowNumbers, Path=IsChecked}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </CheckBox>
+        <StackPanel Margin="10" Orientation="Horizontal">
+            <RadioButton Name="ShowDots" GroupName="ViewModeSelection" Content="Dots" 
+                         IsChecked="{Binding Path=DiceViewMode, Mode=TwoWay,
+                                     Converter={StaticResource RadioButtonCheckedConverter},
+                                     ConverterParameter={x:Static enums:DieFaceViewMode.Dots }}" />
+            <RadioButton Name="ShowNumbers" GroupName="ViewModeSelection" Content="Numbers" 
+                         IsChecked="{Binding Path=DiceViewMode,Mode=TwoWay,
+                                     Converter={StaticResource RadioButtonCheckedConverter},
+                                     ConverterParameter={x:Static enums:DieFaceViewMode.Numbers }}" />
+            <RadioButton Name="ShowRomanNumerals" GroupName="ViewModeSelection" Content="RomanNumerals" 
+                         IsChecked="{Binding Path=DiceViewMode, Mode=TwoWay,
+                                     Converter={StaticResource RadioButtonCheckedConverter},
+                                     ConverterParameter={x:Static enums:DieFaceViewMode.RomanNumerals }}" />
+        </StackPanel>
     </StackPanel>
 </UserControl>
