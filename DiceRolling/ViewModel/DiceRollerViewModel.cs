@@ -31,6 +31,25 @@ namespace DiceRolling.ViewModel
             }
         }
 
+        private ICommand _rollAllDiceCommand;
+        public ICommand RollAllDiceCommand
+        {
+            get
+            {
+                // this construct ensures that _rollAllDiceCommand is only instantiated
+                // and set once, and is then reused.
+                return _rollAllDiceCommand ?? (
+                    _rollAllDiceCommand = new ActionCommand(
+                        () =>
+                        {
+                            _die1.RollCommand.Execute(null);
+                            _die2.RollCommand.Execute(null);
+                            _die3.RollCommand.Execute(null);
+                            _die4.RollCommand.Execute(null);
+                        }));
+            }
+        }
+
 
         public DieFaceViewModel Die1
         {
