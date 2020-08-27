@@ -12,6 +12,7 @@ namespace DiceRolling.ViewModel
     class DiceRollerViewModel : ViewModelBase
     {
         private DieFaceViewMode _diceViewMode = DieFaceViewMode.Dots;
+        // ARTODO: replace these with an Observable Collection of DieFaceViewModel.
         private DieFaceViewModel _die1 = new DieFaceViewModel();
         private DieFaceViewModel _die2 = new DieFaceViewModel();
         private DieFaceViewModel _die3 = new DieFaceViewModel();

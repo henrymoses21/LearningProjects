@@ -20,11 +20,11 @@ namespace DiceRolling.Converters
                 case DieFaceViewMode.Numbers:
                     return System.Convert.ToString(dieFaceValue);
                 case DieFaceViewMode.RomanNumerals:
-                    if (dieFaceValue < 0 || dieFaceValue > 6)
+                    if (dieFaceValue < 1 || dieFaceValue > 6)
                         return System.Convert.ToString(dieFaceValue);
                     return new[] {"I", "II", "III", "IV", "V", "VI"}[dieFaceValue - 1];
                 case DieFaceViewMode.Letters:
-                    if (dieFaceValue < 0 || dieFaceValue > 6)
+                    if (dieFaceValue < 1 || dieFaceValue > 6)
                         return System.Convert.ToString(dieFaceValue);
                     return new[] { "A", "B", "C", "D", "E", "F" }[dieFaceValue - 1];
                 default:
