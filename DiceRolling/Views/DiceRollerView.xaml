@@ -31,22 +31,21 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-
             <local:DieFaceView x:Name="Die1" Padding="4px" Grid.Column="0" DataContext="{Binding Path=Die1, Mode=OneTime}" />
             <local:DieFaceView x:Name="Die2" Padding="4px" Grid.Column="1" DataContext="{Binding Path=Die2, Mode=OneTime}" />
             <local:DieFaceView x:Name="Die3" Padding="4px" Grid.Column="2" DataContext="{Binding Path=Die3, Mode=OneTime}" />
             <local:DieFaceView x:Name="Die4" Padding="4px" Grid.Column="3" DataContext="{Binding Path=Die4, Mode=OneTime}" />
 
         </Grid>
-        <Button Content="Roll Dice" Margin="4px" Command="{Binding Path=RollAllDiceCommand}">
-            <!--<i:Interaction.Triggers>
+        <Button Content="Roll Dice" Margin="4px">
+            <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
                     <i:InvokeCommandAction Command="{Binding ElementName=Die1, Path=RollCommand}" />
                     <i:InvokeCommandAction Command="{Binding ElementName=Die2, Path=RollCommand}" />
                     <i:InvokeCommandAction Command="{Binding ElementName=Die3, Path=RollCommand}" />
                     <i:InvokeCommandAction Command="{Binding ElementName=Die4, Path=RollCommand}" />
                 </i:EventTrigger>
-            </i:Interaction.Triggers>-->
+            </i:Interaction.Triggers>
         </Button>
         <StackPanel Margin="10" Orientation="Horizontal">
             <RadioButton Name="ShowDots" GroupName="ViewModeSelection" Content="Dots" 
@@ -61,6 +60,11 @@
                          IsChecked="{Binding Path=DiceViewMode, Mode=TwoWay,
                                      Converter={StaticResource RadioButtonCheckedConverter},
                                      ConverterParameter={x:Static enums:DieFaceViewMode.RomanNumerals }}" />
-        </StackPanel>
+
+            <RadioButton Name="ShowLetters" GroupName="ViewModeSelection" Content="Letter"
+                         IsChecked="{Binding Path=DiceViewMode, Mode=TwoWay,
+                                     Converter={StaticResource RadioButtonCheckedConverter},
+                                     ConverterParameter={x:Static enums:DieFaceViewMode.Letters }}" />
+        </StackPanel> 
     </StackPanel>
 </UserControl>

@@ -5,5 +5,6 @@
         Dots = 1,
         Numbers,
         RomanNumerals,
+        Letters,
     }
 }
