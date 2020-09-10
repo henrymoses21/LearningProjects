@@ -9,9 +9,7 @@
              xmlns:enums="clr-namespace:DiceRolling.Enums"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             d:DataContext="{d:DesignInstance vm:DieFaceViewModel, IsDesignTimeCreatable=True}"
-             DataContext="{DynamicResource DieFaceVm}"
-             x:Name="DieFace">
+             d:DataContext="{d:DesignInstance vm:DieFaceViewModel, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style x:Key="Dot" TargetType="Ellipse">
@@ -24,7 +22,6 @@
             <converters:DieFaceViewModeToVisibilityConverter x:Key="DieFaceViewConverter" />
             <converters:DieFaceValueConverter x:Key="DieFaceValueConverter" />
             <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter"/>
-            <vm:DieFaceViewModel x:Key="DieFaceVm" />
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.Style>

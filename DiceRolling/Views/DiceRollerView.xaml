@@ -11,6 +11,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="DiceRoller">
+
     <UserControl.Resources>
         <ResourceDictionary>
             <vm:DiceRollerViewModel x:Key="DiceRollerVm" />
@@ -23,38 +24,38 @@
             <Setter Property="ViewMode" Value="{Binding DiceViewMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Style> 
     </UserControl.Style>
-    <StackPanel DataContext="{StaticResource DiceRollerVm}">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <!-- ARTODO Replace these four dice with a ListView bound to an ObservableCollection of DieFaceViewModels in the DiceRollerViewModel class -->
-            <!-- you will need to create a list item template (contents same as one of the lines below, but with no name and a different binding --> -->
-            <!-- try to do the listview UI part, but don't stress over it -->
-            <local:DieFaceView x:Name="Die1" Padding="4px" Grid.Column="0" DataContext="{Binding Path=Die1, Mode=OneTime}" />
-            <local:DieFaceView x:Name="Die2" Padding="4px" Grid.Column="1" DataContext="{Binding Path=Die2, Mode=OneTime}" />
-            <local:DieFaceView x:Name="Die3" Padding="4px" Grid.Column="2" DataContext="{Binding Path=Die3, Mode=OneTime}" />
-            <local:DieFaceView x:Name="Die4" Padding="4px" Grid.Column="3" DataContext="{Binding Path=Die4, Mode=OneTime}" />
-        </Grid>
-        <StackPanel Orientation="Horizontal">
-            <!-- ARTODO Change the button by removing the interaction trigger and binding the button command to a new
-                    command that rolls all of the dice in the observable collection -->
-            <Button Content="Roll Dice" Margin="4px">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding ElementName=Die1, Path=RollCommand}" />
-                        <i:InvokeCommandAction Command="{Binding ElementName=Die2, Path=RollCommand}" />
-                        <i:InvokeCommandAction Command="{Binding ElementName=Die3, Path=RollCommand}" />
-                        <i:InvokeCommandAction Command="{Binding ElementName=Die4, Path=RollCommand}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <!-- ARTODO add a button here that executes a command (See example RollAllDice) that adds a new DieFaceViewModel to the observable collection -->
+    <Grid DataContext="{StaticResource DiceRollerVm}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!-- dice panel -->
+        <ListView Grid.Row="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+
+                  ItemsSource="{Binding Path=Dice, UpdateSourceTrigger=PropertyChanged}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <local:DieFaceView Padding="4px" DataContext="{Binding UpdateSourceTrigger=PropertyChanged}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+        <!-- roll button -->
+        <StackPanel  Grid.Row="1" Orientation="Horizontal">
+            <Button Content="Roll Dice" Margin="4px"
+                    Command="{Binding RollAllDiceCommand}" />
+            <!-- ARTODO - put number control here -->
+            <!-- Binding Path=NumberOfDice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged -->
+            <!--<TextBox Text="{Binding Path=NumberOfDice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
+
         </StackPanel>
-        <StackPanel Margin="10" Orientation="Horizontal">
+        <!-- mode controls -->
+        <StackPanel  Grid.Row="2" Margin="10" Orientation="Horizontal">
             <RadioButton Name="ShowDots" GroupName="ViewModeSelection" Content="Dots" 
                          IsChecked="{Binding Path=DiceViewMode, Mode=TwoWay,
                                      Converter={StaticResource RadioButtonCheckedConverter},
@@ -73,5 +74,5 @@
                                      Converter={StaticResource RadioButtonCheckedConverter},
                                      ConverterParameter={x:Static enums:DieFaceViewMode.Letters }}" />
         </StackPanel> 
-    </StackPanel>
+    </Grid>
 </UserControl>

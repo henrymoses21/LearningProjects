@@ -5,9 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DiceRolling.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="172" Width="306" ResizeMode="NoResize">
+        Title="MainWindow" Height="480" Width="700">
 
-    <StackPanel>
         <local:DiceRollerView />
-    </StackPanel>
 </Window>

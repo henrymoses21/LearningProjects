@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using DiceRolling.Enums;
 using Microsoft.Xaml.Behaviors.Core;
@@ -11,23 +7,59 @@ namespace DiceRolling.ViewModel
 {
     class DiceRollerViewModel : ViewModelBase
     {
-        private DieFaceViewMode _diceViewMode = DieFaceViewMode.Dots;
-        // ARTODO: replace these with an Observable Collection of DieFaceViewModel.
-        private DieFaceViewModel _die1 = new DieFaceViewModel();
-        private DieFaceViewModel _die2 = new DieFaceViewModel();
-        private DieFaceViewModel _die3 = new DieFaceViewModel();
-        private DieFaceViewModel _die4 = new DieFaceViewModel();
 
+        public DiceRollerViewModel()
+        {
+            this.NumberOfDice = 64;
+        }
+
+        private ObservableCollection<DieFaceViewModel> _dice = new ObservableCollection<DieFaceViewModel>();
+
+        public ObservableCollection<DieFaceViewModel> Dice
+        {
+            get => _dice;
+            set
+            {
+                if (_dice == value) return;
+                _dice = value;
+                OnPropertyChanged(nameof(Dice));
+            }
+        }
+
+        private int _numberOfDice = 0;
+        public int NumberOfDice
+        {
+            get => _numberOfDice;
+            set
+            {
+                if (_numberOfDice == value) return;
+                if (value < 1 || value > 1024) return; // note; this should return error, not just fail silently.
+
+                _numberOfDice = value;
+
+                this.Dice.Clear();
+                for (var i = 0; i < _numberOfDice; i++)
+                {
+                    this.Dice.Add(new DieFaceViewModel());
+                }
+
+
+                OnPropertyChanged(nameof(NumberOfDice));
+            }
+        }
+
+        private DieFaceViewMode _diceViewMode = DieFaceViewMode.Dots;
         public DieFaceViewMode DiceViewMode
         {
             get => _diceViewMode;
             set
             {
+                if (_diceViewMode == value) return;
                 _diceViewMode = value;
-                _die1.DieViewMode = value;
-                _die2.DieViewMode = value;
-                _die3.DieViewMode = value;
-                _die4.DieViewMode = value;
+                foreach (var dieFaceModel in this.Dice)
+                {
+                    dieFaceModel.DieViewMode = value;
+                }
                 OnPropertyChanged(nameof(DiceViewMode));
             }
         }
@@ -43,55 +75,13 @@ namespace DiceRolling.ViewModel
                     _rollAllDiceCommand = new ActionCommand(
                         () =>
                         {
-                            _die1.RollCommand.Execute(null);
-                            _die2.RollCommand.Execute(null);
-                            _die3.RollCommand.Execute(null);
-                            _die4.RollCommand.Execute(null);
+                            foreach (var dieFaceModel in this.Dice)
+                            {
+                                dieFaceModel.RollCommand.Execute(null);
+                            }
+                            OnPropertyChanged(nameof(Dice));
                         }));
             }
         }
-
-
-        public DieFaceViewModel Die1
-        {
-            get => _die1;
-            set
-            {
-                _die1 = value;
-                OnPropertyChanged(nameof(Die1));
-            }
-        }
-
-        public DieFaceViewModel Die2
-        {
-            get => _die2;
-            set
-            {
-                _die2 = value;
-                OnPropertyChanged(nameof(Die2));
-            }
-        }
-
-        public DieFaceViewModel Die3
-        {
-            get => _die3;
-            set
-            {
-                _die3 = value;
-                OnPropertyChanged(nameof(Die3));
-            }
-        }
-
-        public DieFaceViewModel Die4
-        {
-            get => _die4;
-            set
-            {
-                _die4 = value;
-                OnPropertyChanged(nameof(Die4));
-            }
-        }
-
-
     }
 }
