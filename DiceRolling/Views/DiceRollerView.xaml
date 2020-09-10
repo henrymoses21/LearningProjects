@@ -51,7 +51,7 @@
                     Command="{Binding RollAllDiceCommand}" />
             <!-- ARTODO - put number control here -->
             <!-- Binding Path=NumberOfDice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged -->
-            <!--<TextBox Text="{Binding Path=NumberOfDice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
+            <!--<TextBox Text="{Binding Path=NumberOfDice, Mode=TwoWay, UpdateSourceTrigger=Default}"/>-->
 
         </StackPanel>
         <!-- mode controls -->
